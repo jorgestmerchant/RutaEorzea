@@ -11,6 +11,7 @@ public sealed class Configuration : IPluginConfiguration
     public bool FollowQuestClicks { get; set; } = true;
     public bool ShowTrackerButtons { get; set; } = true;
     public bool ShowQuestLevels { get; set; } = true;
+    public bool ShowQuestRewards { get; set; } = true;
     public bool MapRightClick { get; set; } = true;
     public bool ShowSettingsButton { get; set; } = true;
     public float SettingsButtonAngle { get; set; } = 135;

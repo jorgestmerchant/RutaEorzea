@@ -27,6 +27,7 @@ public sealed class Plugin : IDalamudPlugin
     [PluginService] internal static IPluginLog Log { get; private set; } = null!;
     [PluginService] internal static IChatGui Chat { get; private set; } = null!;
     [PluginService] internal static IDataManager Data { get; private set; } = null!;
+    [PluginService] internal static ITextureProvider Textures { get; private set; } = null!;
 
     private readonly Configuration config;
     private readonly ICallGateSubscriber<bool> navReady;
@@ -80,6 +81,7 @@ public sealed class Plugin : IDalamudPlugin
     private DateTime nextQuestRefresh;
     private readonly NavigationHud navigationHud;
     private readonly IFontHandle questLevelFont;
+    private readonly RewardCard rewardCard;
     private Destination? mapMenuDestination;
     private Vector2 mapMenuPosition;
     private bool mapMenuRequested;
@@ -93,6 +95,7 @@ public sealed class Plugin : IDalamudPlugin
         restoreLevelId = config.SavedLevelId;
         navigationHud = new NavigationHud(Pi.UiBuilder.FontAtlas);
         questLevelFont = Pi.UiBuilder.FontAtlas.NewGameFontHandle(new GameFontStyle(GameFontFamily.Axis, 16));
+        rewardCard = new RewardCard(new QuestRewards(Data), Textures);
         navReady = Pi.GetIpcSubscriber<bool>("vnavmesh.Nav.IsReady");
         pathfind = Pi.GetIpcSubscriber<Vector3, Vector3, bool, CancellationToken, Task<List<Vector3>>>("vnavmesh.Nav.PathfindCancelable");
         flagFloor = Pi.GetIpcSubscriber<Vector3?>("vnavmesh.Query.Mesh.FlagToPoint");
@@ -109,7 +112,7 @@ public sealed class Plugin : IDalamudPlugin
         Lifecycle.RegisterListener(AddonEvent.PostReceiveEvent, "_ToDoList", OnDutyEvent);
         Lifecycle.RegisterListener(AddonEvent.PostReceiveEvent, "ScenarioTree", OnDutyEvent);
         Lifecycle.RegisterListener(AddonEvent.PreReceiveEvent, "AreaMap", OnMapEvent);
-        Log.Information("Ruta Eorzea 0.10: flecha alineada con el rastro, ajuste de suelo e icono cargados.");
+        Log.Information("Ruta Eorzea 0.11: ficha de recompensas de misión cargada.");
     }
 
     private void Open() => open = true;
@@ -271,7 +274,7 @@ public sealed class Plugin : IDalamudPlugin
                 FollowQuest((uint)toggle);
             }
         }
-        if ((config.ShowTrackerButtons || config.ShowQuestLevels) && Client.IsLoggedIn)
+        if ((config.ShowTrackerButtons || config.ShowQuestLevels || config.ShowQuestRewards) && Client.IsLoggedIn)
         {
             trackerRows = TrackerReader.Read(Gui.GetAddonByName<AtkUnitBase>("_ToDoList", 1));
             trackerRows.AddRange(TrackerReader.Read(Gui.GetAddonByName<AtkUnitBase>("ScenarioTree", 1), true));
@@ -507,6 +510,7 @@ public sealed class Plugin : IDalamudPlugin
         if (open) DrawSettings();
         if (config.ShowTrackerButtons) DrawTrackerButtons();
         if (config.ShowQuestLevels) DrawQuestLevels();
+        if (config.ShowQuestRewards) DrawQuestRewards();
         if (config.Enabled && config.ShowArrow && (target != null || trackedQuestId != 0) && path.Count < 2)
             DrawTravelStatus();
         if (!config.Enabled || path.Count < 2 || Objects.LocalPlayer is not { } player) return;
@@ -558,6 +562,7 @@ public sealed class Plugin : IDalamudPlugin
         var quest = config.FollowQuestClicks; if (ImGui.Checkbox("Seguir al pulsar objetivos de misión", ref quest)) { config.FollowQuestClicks = quest; changed = true; }
         var buttons = config.ShowTrackerButtons; if (ImGui.Checkbox("Casillas a la derecha de cada misión", ref buttons)) { config.ShowTrackerButtons = buttons; changed = true; }
         var levels = config.ShowQuestLevels; if (ImGui.Checkbox("Nivel de misión con color según tu nivel", ref levels)) { config.ShowQuestLevels = levels; changed = true; }
+        var rewards = config.ShowQuestRewards; if (ImGui.Checkbox("Ficha de recompensas al pasar sobre una misión", ref rewards)) { config.ShowQuestRewards = rewards; changed = true; }
         if (levels) ImGui.TextWrapped("Verde: desde 5 niveles menos hasta 2 más. Naranja: 3–4 más. Rojo: 5 o más. Gris: 6 o más por debajo. El color compara niveles; no calcula la recompensa de EXP.");
         var rightClick = config.MapRightClick; if (ImGui.Checkbox("Crear rutas con clic derecho en el mapa", ref rightClick)) { config.MapRightClick = rightClick; changed = true; }
         var settingsButton = config.ShowSettingsButton; if (ImGui.Checkbox("Botón flotante de ajustes en el minimapa", ref settingsButton)) { config.ShowSettingsButton = settingsButton; changed = true; }
@@ -673,11 +678,19 @@ public sealed class Plugin : IDalamudPlugin
                 if (ImGui.Checkbox("##seguir", ref selected)) Interlocked.Exchange(ref questToToggle, (int)row.QuestId);
                 if (ImGui.IsItemHovered())
                 {
-                    ImGui.BeginTooltip();
-                    ImGui.TextUnformatted(row.Label);
-                    ImGui.TextUnformatted(selected ? "Siguiendo. Pulsa para quitar la ruta." : "Pulsa para seguir esta misión.");
-                    if (selected) ImGui.TextWrapped(status);
-                    ImGui.EndTooltip();
+                    if (config.ShowQuestRewards && Objects.LocalPlayer is { } tooltipPlayer)
+                    {
+                        using var rewardFont = questLevelFont.Push();
+                        rewardCard.Draw(row, tooltipPlayer.Level, selected, status);
+                    }
+                    else
+                    {
+                        ImGui.BeginTooltip();
+                        ImGui.TextUnformatted(row.Label);
+                        ImGui.TextUnformatted(selected ? "Siguiendo. Pulsa para quitar la ruta." : "Pulsa para seguir esta misión.");
+                        if (selected) ImGui.TextWrapped(status);
+                        ImGui.EndTooltip();
+                    }
                 }
             }
             ImGui.End();
@@ -723,6 +736,22 @@ public sealed class Plugin : IDalamudPlugin
             draw.AddText(position + new Vector2(0, -1), 0xFF000000, text);
             draw.AddText(position + new Vector2(0, 1), 0xFF000000, text);
             draw.AddText(position, ImGui.ColorConvertFloat4ToU32(color), text);
+        }
+    }
+
+    private void DrawQuestRewards()
+    {
+        if (Objects.LocalPlayer is not { } player || ImGui.GetIO().WantCaptureMouse ||
+            ImGui.IsMouseDown(ImGuiMouseButton.Left) || mapMenuVisible) return;
+        var viewport = ImGui.GetMainViewport().Pos;
+        foreach (var row in trackerRows)
+        {
+            var min = viewport + row.TextPosition - new Vector2(config.ShowQuestLevels && !row.MainScenario ? 32 : 0, 1);
+            var max = viewport + new Vector2(row.TextPosition.X + row.TextWidth + (row.MainScenario ? 32 : 0), row.Position.Y + row.Height + 1);
+            if (!ImGui.IsMouseHoveringRect(min, max, false)) continue;
+            using var rewardFont = questLevelFont.Push();
+            rewardCard.Draw(row, player.Level, trackedQuestId == row.QuestId, status);
+            break;
         }
     }
 
@@ -857,7 +886,7 @@ public sealed class Plugin : IDalamudPlugin
     {
         try
         {
-            var data = new { Version = "0.10.0", Territory = Client.TerritoryType, Map = Client.MapId,
+            var data = new { Version = "0.11.0", Territory = Client.TerritoryType, Map = Client.MapId,
                 TrackedQuest = trackedQuestId, TrackerRows = trackerRows,
                 TransitExit = transitExit, SnappedExit = snappedExit, WaitingForTransition = waitingForTransition,
                 Status = status, Minimap = minimap, Target = target, RoutePoints = path.Count,

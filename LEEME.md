@@ -1,4 +1,4 @@
-# Ruta Eorzea — experimental 0.10.0
+# Ruta Eorzea — experimental 0.11.0
 
 Guía visual para FFXIV con Dalamud. Utiliza vnavmesh para calcular caminos. No mueve al personaje. Consulta INSTALAR.txt para instalar el paquete en otro equipo.
 
@@ -34,6 +34,12 @@ El nivel base de cada misión aparece entre paréntesis integrado en su título,
 Los colores cambian según el nivel de la clase que estás usando. Puedes ocultarlos en `/ruta` → «Nivel de misión con color según tu nivel». Comparan niveles; no indican una recompensa de EXP ni comprueban todos los requisitos para aceptar una misión. Se muestra el nivel base de la misión, no una promesa sobre la dificultad de cada combate.
 
 ## Guía visual y misiones con varios objetivos
+
+### Ficha de recompensas
+
+Pasa el cursor sobre el título, nivel o casilla de una misión principal o secundaria. La ficha muestra EXP base aproximada, gil, objetos garantizados y recompensas a elegir, con iconos, cantidades y HQ, además de desbloqueos disponibles. «Elige UNA recompensa» significa que no recibes todas las opciones. Se puede desactivar desde los ajustes.
+
+La EXP excluye bonificaciones y puede cambiar por sincronización. Las recompensas especiales según clase o reputación se indican para consultar el diario. Los nombres de los objetos proceden del idioma del cliente; no se traducen mediante Gubal desde este plugin.
 
 La guía tiene un medallón con aguja dorada en relieve, marco oscuro con borde dorado y fuentes del juego (Axis y Jupiter). Muestra la misión, la distancia del tramo y una indicación breve. La aguja gira suavemente con la cámara y sigue indicando la dirección aunque el siguiente punto quede detrás de ella. Arrastra el panel para cambiarlo de sitio.
 
@@ -98,6 +104,7 @@ En los ajustes puedes apagar por separado la línea del terreno, la del minimapa
 - Versión 0.8.1: se eliminó la calibración que dependía de iconos cercanos y ocultaba la línea al moverse. Se leen la escala y el giro nativos y la posición del jugador usada por el renderizador del minimapa. La proyección se contrastó con coordenadas reales de un minimapa giratorio en el Bosque del Norte y se comprobaron cambios de zoom, escala de interfaz, giro y datos inválidos. No se recorrió manualmente una ruta completa en esta revisión.
 - Versión 0.9: nivel entre paréntesis integrado junto al nombre real de cada título, sin recuadro flotante. Se comprobó en el juego la principal «Dar la talla» (4) y las secundarias de niveles 3, 4 y 5, en verde con el personaje de nivel 7. Se probaron los límites de los cuatro colores y el cambio al subir de nivel; 71 comprobaciones aprobadas.
 - Versión 0.10: flecha alineada con la línea del minimapa, con pruebas de giros, curvas, pendientes y regreso al camino; 79 comprobaciones aprobadas. Se observó alineada durante un tramo de unos 22 m en «Bébete las judías, cariño». Los objetivos de misión se ajustan a suelo transitable cercano antes de calcular. Se añade icono de brújula, README y flujo de publicación en GitHub; su publicación remota requiere un repositorio accesible.
+- Versión 0.11: ficha de recompensas con datos locales y cálculo de EXP base aproximada. Se contrastaron datos de misiones de niveles 4 y 5, objetos garantizados, opciones, cristales y HQ. Se añadieron pruebas de EXP, redondeo, desbordamiento y comparación con un nivel completo; 88 comprobaciones aprobadas antes de publicar.
 - Compilación sin errores ni advertencias; comprobaciones de matemáticas, proyección, selección de salidas, selección de objetivos y orientación de la flecha aprobadas, incluyendo la coincidencia de la aguja con el tramo dibujado y la proyección del mapa grande.
 
 No se verificaron recorridos completos, el cruce real de zona seguido hasta otro objetivo de misión, todas las zonas, todos los tipos de misión ni el modo de minimapa rotatorio durante esta sesión.

@@ -10,6 +10,7 @@ Guía visual de navegación y misiones para **FINAL FANTASY XIV** mediante Dalam
 - Muestra una flecha y la distancia del tramo actual. Por defecto, la flecha sigue la dirección del siguiente tramo del rastro del minimapa.
 - Añade casillas para seguir una misión principal o secundaria.
 - Muestra el nivel entre paréntesis integrado en el título, con color según tu nivel actual.
+- Ofrece una ficha al pasar el cursor sobre el título, nivel o casilla: EXP base aproximada, gil, objetos con iconos, cantidades, HQ, opciones a elegir y desbloqueos disponibles.
 - Permite **clic derecho en un punto o icono del mapa → Crear ruta hasta aquí**.
 - Guía por salidas a pie entre zonas compatibles y vuelve a calcular el siguiente tramo al cruzar.
 - Conserva la misión marcada al recargar y ofrece un engranaje de ajustes junto al minimapa.
@@ -52,7 +53,13 @@ Una vez instalado desde el repositorio, las versiones nuevas aparecerán en el i
 
 **Ctrl + clic derecho** conserva la bandera del juego. La línea sobre el terreno viene apagada; puedes activarla en ajustes. Arrastra el panel de la flecha para moverlo.
 
-Los niveles usan estos colores: **verde**, de 5 niveles menos a 2 más; **naranja**, 3 o 4 más; **rojo**, 5 o más; **gris**, 6 o más por debajo. El color compara niveles; no calcula EXP ni todos los requisitos de aceptación.
+Los niveles usan estos colores: **verde**, de 5 niveles menos a 2 más; **naranja**, 3 o 4 más; **rojo**, 5 o más; **gris**, 6 o más por debajo. El color compara niveles y no determina la EXP ni todos los requisitos de aceptación.
+
+### Ficha de recompensas
+
+Pasa el cursor sobre el nombre, nivel o casilla de una misión. La ficha distingue **Recibirás** de **Elige UNA recompensa**, incluye iconos y cantidades y señala los objetos HQ. Muestra también gil y desbloqueos disponibles. Se puede ocultar en `/ruta` → «Ficha de recompensas al pasar sobre una misión».
+
+La EXP mostrada es una **estimación base sin bonificaciones**, calculada con los datos locales de Quest y ParamGrow. La comparación porcentual usa la EXP necesaria para un nivel completo de tu clase actual. Las misiones que escalan con el nivel se identifican; confirma su importe final en el diario. Los nombres de objetos usan el idioma del cliente, aunque el título de misión esté traducido por Gubal. Las recompensas especiales según clase o reputación pueden requerir consultar el diario.
 
 ## Límites
 

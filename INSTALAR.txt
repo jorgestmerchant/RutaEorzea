@@ -46,7 +46,9 @@ USO
 - /ruta o engranaje del minimapa: ajustes. /ruta parar: detener.
 - La línea del terreno viene apagada. La ruta se ve en el minimapa y en M.
 - El nivel entre paréntesis usa verde (adecuado), naranja (3–4 niveles más),
-  rojo (5 o más), gris (6 o más niveles por debajo). No calcula EXP.
+  rojo (5 o más), gris (6 o más niveles por debajo).
+- Pasa el cursor por título, nivel o casilla para consultar recompensas.
+  La EXP es base aproximada sin bonificaciones; confirma el total en el diario.
 
 LÍMITES
 El mapa grande muestra el tramo del mapa actual. Los viajes se calculan

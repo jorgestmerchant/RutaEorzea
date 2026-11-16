@@ -24,6 +24,7 @@ Si tienes el antiguo ZIP de desarrollo, desactívalo y quita su ruta de Dev Plug
 • `/ruta`: ajustes; también sirve el engranaje del minimapa.
 • `/ruta parar`: detener.
 • El nivel entre paréntesis cambia de color según tu nivel.
+• Pasa el cursor por una misión para ver su ficha de recompensas.
 
 **Actualizaciones:** las nuevas versiones aparecerán en `/xlplugins`; ya no necesitas reemplazar DLL manualmente. La actualización automática depende de tus ajustes de Dalamud.
 

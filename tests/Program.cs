@@ -233,3 +233,13 @@ Check(rejoinArrow.HasValue && Vector2.Dot(rejoinArrow.Value,rejoinExpected)>.999
 Check(RouteMath.MinimapRouteDirection([],default,Vector3.Zero,Vector2.UnitX)==null,
     "No fabricated trace direction without a route");
 Console.WriteLine($"PASS: {checks} checks including arrow aligned with minimap trail");
+Check(RewardMath.BaseExperience(400,65,4)==1040,"Base EXP for To the Bannock matches local Quest/ParamGrow data");
+Check(RewardMath.BaseExperience(400,70,5)==1400,"Base EXP for Trial by Earth matches local Quest/ParamGrow data");
+Check(RewardMath.BaseExperience(0,70,5)==0,"Quest without EXP keeps zero reward");
+Check(RewardMath.BaseExperience(100,0,5)==0,"Zero scaling yields no base EXP");
+Check(RewardMath.BaseExperience(65535,65535,255)==10951832373UL,"Base EXP uses wide arithmetic without overflow");
+Check(RewardMath.BaseExperience(10,3,5)==1,"Base EXP follows integer truncation");
+Check(RewardMath.LevelPercentage(1400,5600)==25,"Reward comparison uses the character's full level requirement");
+Check(RewardMath.LevelPercentage(1400,0)==null,"No invented percentage at level cap or with missing growth data");
+Check(RewardMath.LevelPercentage(2800,1400)==200,"Large rewards are not misleadingly capped at one level");
+Console.WriteLine($"PASS: {checks} checks including quest reward calculations");
