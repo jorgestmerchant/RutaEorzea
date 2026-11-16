@@ -3,7 +3,7 @@
     "Author": "Jorge",
     "Name": "Ruta Eorzea (experimental)",
     "InternalName": "RutaEorzea",
-    "AssemblyVersion": "0.10.0.1",
+    "AssemblyVersion": "0.10.0.2",
     "RepoUrl": "https://github.com/jorgestmerchant/RutaEorzea",
     "IconUrl": "https://raw.githubusercontent.com/jorgestmerchant/RutaEorzea/main/images/icon.png",
     "Description": "Guía visual por tramos: rutas en el mapa grande y el minimapa, flecha y conexiones a pie entre zonas. Seguimiento de misión principal y secundarias. Clic derecho en el mapa para crear un destino personalizado. Requiere vnavmesh. Transportes y entradas especiales pueden necesitar intervención.",
@@ -19,10 +19,10 @@
     "LoadRequiredState": 0,
     "LoadSync": false,
     "CanUnloadAsync": false,
-    "DownloadLinkInstall": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.1/latest.zip",
-    "DownloadLinkUpdate": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.1/latest.zip",
-    "DownloadLinkTesting": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.1/latest.zip",
-    "LastUpdate": "1794788883",
+    "DownloadLinkInstall": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.2/latest.zip",
+    "DownloadLinkUpdate": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.2/latest.zip",
+    "DownloadLinkTesting": "https://github.com/jorgestmerchant/RutaEorzea/releases/download/v0.10.0.2/latest.zip",
+    "LastUpdate": "1794789142",
     "IsHide": false,
     "IsTestingExclusive": false
   }
