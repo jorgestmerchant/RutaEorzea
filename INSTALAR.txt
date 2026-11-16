@@ -1,71 +1,63 @@
-RUTA EORZEA 0.10.0 — INSTALACIÓN PARA COMPAÑEROS (WINDOWS)
-
-Este paquete es experimental y se carga como plugin de desarrollo.
-No está publicado en el catálogo ni tiene actualizaciones automáticas.
+RUTA EORZEA — INSTALACIÓN Y ACTUALIZACIONES (WINDOWS)
 
 REQUISITOS
-- Final Fantasy XIV para Windows, iniciado con XIVLauncher y Dalamud.
-- Dalamud API 15 compatible. Una actualización del juego puede requerir una nueva versión.
-- vnavmesh instalado y activado. Probado con 1.2.3.15.
-- Gubal es opcional: traduce el juego, pero no es necesario para calcular rutas.
-- No hace falta Visual Studio ni el SDK de .NET para instalar este ZIP.
+- FFXIV para Windows iniciado con XIVLauncher y Dalamud API 15 compatible.
+- vnavmesh instalado y activado, con el motor de caminos preparado (Ready).
+- Gubal es opcional: traduce el juego, pero no es necesario para las rutas.
+- No necesitas Visual Studio ni el SDK de .NET para instalar el addon.
 
-1. EXTRAER
-Extrae TODO el ZIP en una carpeta permanente, por ejemplo:
-C:\FFXIV-Plugins\RutaEorzea
-No lo ejecutes dentro del ZIP. Mantén RutaEorzea.dll y RutaEorzea.json juntos.
+MÉTODO RECOMENDADO: REPOSITORIO DE DALAMUD
+1. Si falta vnavmesh: /xlsettings > Experimental > Custom Plugin Repositories.
+   Añade https://puni.sh/api/repository/veyn, pulsa + y guarda.
+   En /xlplugins, busca vnavmesh e instálalo/actívalo.
+2. En la misma sección de repositorios personalizados añade:
+   https://raw.githubusercontent.com/jorgestmerchant/RutaEorzea/main/pluginmaster.json
+   Pulsa +, guarda y actualiza el catálogo en /xlplugins.
+3. Busca Ruta Eorzea e instálalo. La portada de GitHub NO sustituye al
+   enlace completo del archivo pluginmaster.json.
+4. Marca una misión o usa M > clic derecho > Crear ruta hasta aquí.
 
-2. INSTALAR VNAVMESH, SI AÚN NO LO TIENES
-En el chat del juego escribe /xlsettings.
-Ve a Experimental > Custom Plugin Repositories.
-Añade https://puni.sh/api/repository/veyn y guarda los ajustes.
-Escribe /xlplugins, busca vnavmesh e instálalo/actívalo.
-Espera a que el motor termine de preparar la zona (Ready).
+ACTUALIZACIONES
+Las versiones nuevas publicadas en GitHub aparecerán en /xlplugins.
+Actualiza desde allí; no necesitas reemplazar DLL manualmente.
+La instalación automática depende de los ajustes de Dalamud del usuario.
+Los parches del juego o Dalamud pueden requerir una nueva versión.
 
-3. REGISTRAR RUTA EORZEA
-Escribe /xlsettings.
-Ve a Experimental > Dev Plugin Locations.
-Añade la ruta COMPLETA a TU archivo RutaEorzea.dll. En el ejemplo sería:
-C:\FFXIV-Plugins\RutaEorzea\RutaEorzea.dll
-Pulsa + si aparece y después Save/Save and Close.
-Escribe /xlplugins y busca la sección Dev Tools / Installed Dev Plugins.
-Activa Ruta Eorzea (experimental). Los nombres pueden variar con el idioma de Dalamud.
-Si la sección no aparece, reinicia el juego desde XIVLauncher y vuelve a revisar.
+SI USABAS EL ZIP DE DESARROLLO
+Desactiva esa copia en /xlplugins y quita su ruta de Dev Plugin Locations
+antes de instalar desde el catálogo. No cargues ambas copias a la vez.
+El nombre interno del plugin sigue siendo RutaEorzea.
 
-4. USAR
-- Marca la casilla de una misión secundaria o la de la misión principal.
-- El nivel aparece entre paréntesis en el título: verde (adecuado), naranja
-  (3–4 niveles más), rojo (5 o más), gris (6 o más niveles por debajo).
-- En M, clic derecho sobre un punto o icono > Crear ruta hasta aquí.
-- Ctrl + clic derecho sigue colocando la bandera normal del juego.
-- La ruta se ve en el minimapa y en el mapa grande, que se abre con M.
-- La flecha muestra la distancia del tramo actual.
-- Ajustes: /ruta o el engranaje al lado del minimapa.
-- Detener: desmarca la misión o escribe /ruta parar.
-- La línea sobre el terreno viene apagada.
+MÉTODO MANUAL ALTERNATIVO (SIN ACTUALIZACIONES DEL CATÁLOGO)
+1. Extrae el ZIP completo en una carpeta permanente, por ejemplo:
+   C:\FFXIV-Plugins\RutaEorzea
+   Mantén juntos la DLL, el JSON y la carpeta images.
+2. /xlsettings > Experimental > Dev Plugin Locations.
+   Añade C:\FFXIV-Plugins\RutaEorzea\RutaEorzea.dll, pulsa + y guarda.
+3. /xlplugins > Dev Tools / Installed Dev Plugins > activar Ruta Eorzea.
+4. Para actualizar esta copia manual, cierra el juego y reemplaza los archivos
+   del ZIP en la misma carpeta. Para actualizar desde el catálogo, migra antes
+   según las instrucciones anteriores.
 
-El mapa grande solo muestra el camino de la zona/mapa actual. Al consultar
-otro mapa se oculta esa línea. Entre zonas se guía por tramos a través de
-salidas a pie compatibles; no incluye todos los transportes ni garantiza
-compatibilidad con todas las misiones. Consulta LEEME.md para los límites.
+USO
+- Casilla junto a una misión principal o secundaria: seguir/detener.
+- M > clic derecho en punto o icono: ruta personalizada.
+- Ctrl + clic derecho: bandera nativa del juego.
+- /ruta o engranaje del minimapa: ajustes. /ruta parar: detener.
+- La línea del terreno viene apagada. La ruta se ve en el minimapa y en M.
+- El nivel entre paréntesis usa verde (adecuado), naranja (3–4 niveles más),
+  rojo (5 o más), gris (6 o más niveles por debajo). No calcula EXP.
 
-ACTUALIZAR
-Con el juego cerrado, reemplaza la DLL y el JSON en la misma carpeta.
-Conserva esa carpeta y su ruta. Cada compañero tendrá su propia configuración.
-No compartas tus carpetas de XIVLauncher, contraseñas ni archivos de cuenta.
+LÍMITES
+El mapa grande muestra el tramo del mapa actual. Los viajes se calculan
+por salidas a pie compatibles. Transportes, pisos superpuestos y algunas
+misiones requieren intervención. Tú mueves al personaje.
+Consulta README.md y LEEME.md para más detalles.
 
-DESACTIVAR
-Desactiva Ruta Eorzea en /xlplugins. Para dejar de cargarlo, quita su ruta
-de Dev Plugin Locations en /xlsettings.
+GUÍA Y CÓDIGO
+https://github.com/jorgestmerchant/RutaEorzea
 
-FUENTES DE INSTALACIÓN
+DEPENDENCIAS
 XIVLauncher: https://goatcorp.github.io/
-Dalamud: https://dalamud.dev/faq/getting-started/
+Dalamud: https://dalamud.dev/
 vnavmesh: https://github.com/awgil/ffxiv_navmesh
-
-CONTENIDO DEL ZIP
-RutaEorzea.dll  — addon compilado
-RutaEorzea.json — manifiesto de Dalamud
-INSTALAR.txt   — esta guía
-LEEME.md       — uso, comprobaciones y limitaciones
-GUIA-DISCORD.txt — mensaje breve listo para pegar en Discord

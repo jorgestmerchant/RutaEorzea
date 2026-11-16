@@ -29,11 +29,11 @@ Requisitos: FFXIV para Windows iniciado con XIVLauncher y Dalamud, más **vnavme
 4. Abre `/xlplugins`, actualiza el catálogo, busca **Ruta Eorzea** e instálalo.
 5. Espera a que vnavmesh termine de preparar la zona y marca una misión.
 
-El enlace anterior funciona **después de publicar la primera versión y generar el índice**. El repositorio puede alojar código privado o público, pero el índice, el icono y el ZIP de instalación tienen que ser accesibles sin iniciar sesión. Este proyecto está preparado para un repositorio público.
+El índice, el icono y el ZIP de instalación son públicos y no requieren iniciar sesión. El flujo de publicación mantiene el índice actualizado cuando una versión termina de compilarse y publicarse correctamente.
 
 ### Si ya instalaste el ZIP de desarrollo
 
-Desactiva la copia de desarrollo y quita **su ruta de Dev Plugin Locations** antes de instalar desde el catálogo. No cargues ambas copias a la vez. La configuración usa el mismo nombre interno, `RutaEorzea`; conviene conservar una copia de seguridad de su archivo de configuración antes de migrar.
+Desactiva la copia de desarrollo y quita **su ruta de Dev Plugin Locations** antes de instalar desde el catálogo. No cargues ambas copias a la vez. La configuración usa el mismo nombre interno, `RutaEorzea`.
 
 ### Actualizar
 
