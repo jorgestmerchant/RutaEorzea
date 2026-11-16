@@ -1,0 +1,31 @@
+**Ruta Eorzea 0.10.0 — instalación (Windows)**
+
+Guía con flecha, rutas en minimapa y mapa M, casillas de misión principal/secundarias y rutas personalizadas con clic derecho. Es experimental y no mueve al personaje.
+
+**Necesitas:** FFXIV iniciado desde XIVLauncher con Dalamud y el plugin vnavmesh. Este paquete está compilado para Dalamud API 15.
+XIVLauncher: https://goatcorp.github.io/
+
+**1. Extrae el ZIP completo** en una carpeta permanente; por ejemplo:
+`C:\FFXIV-Plugins\RutaEorzea`
+Mantén juntos `RutaEorzea.dll` y `RutaEorzea.json`.
+
+**2. Instala vnavmesh si te falta:**
+Escribe `/xlsettings` > Experimental > Custom Plugin Repositories.
+Añade `https://puni.sh/api/repository/veyn`, pulsa + y guarda.
+Abre `/xlplugins`, busca vnavmesh e instálalo/actívalo. Espera a que termine de preparar la zona.
+
+**3. Activa Ruta Eorzea:**
+En `/xlsettings` > Experimental > Dev Plugin Locations, añade la ruta completa a TU DLL. Ejemplo:
+`C:\FFXIV-Plugins\RutaEorzea\RutaEorzea.dll`
+Pulsa + y guarda. Abre `/xlplugins` > Dev Tools / Installed Dev Plugins y activa Ruta Eorzea. Si no aparece, reinicia desde XIVLauncher. No se añade como URL de repositorio.
+
+**4. Uso:**
+• Marca la casilla de una misión, incluida la principal.
+• El nivel entre paréntesis usa verde, naranja, rojo o gris según tu nivel.
+• M > clic derecho en punto o icono > Crear ruta hasta aquí.
+• `/ruta`: ajustes; también sirve el engranaje del minimapa.
+• `/ruta parar`: detener.
+
+La ruta se calcula por tramos; algunos destinos o transportes no son compatibles. Gubal es opcional para traducir el juego. Más detalles en INSTALAR.txt y LEEME.md.
+
+Para actualizar: cierra el juego y reemplaza la DLL y el JSON en la misma carpeta. No tiene actualización automática.

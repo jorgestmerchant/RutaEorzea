@@ -1,0 +1,16 @@
+{
+  "Author": "Jorge",
+  "Name": "Ruta Eorzea (experimental)",
+  "InternalName": "RutaEorzea",
+  "AssemblyVersion": "0.10.0.0",
+  "RepoUrl": "https://github.com/jorgestmerchant/RutaEorzea",
+  "IconUrl": "https://raw.githubusercontent.com/jorgestmerchant/RutaEorzea/main/images/icon.png",
+  "Description": "Guía visual por tramos: rutas en el mapa grande y el minimapa, flecha y conexiones a pie entre zonas. Seguimiento de misión principal y secundarias. Clic derecho en el mapa para crear un destino personalizado. Requiere vnavmesh. Transportes y entradas especiales pueden necesitar intervención.",
+  "Punchline": "Una ruta y una flecha para orientarte en Eorzea.",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 15,
+  "Tags": ["map", "quest", "navigation", "spanish"],
+  "LoadRequiredState": 0,
+  "LoadSync": false,
+  "CanUnloadAsync": false
+}

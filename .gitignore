@@ -1,0 +1,11 @@
+bin/
+obj/
+tests/bin/
+tests/obj/
+artifacts/
+.vs/
+.idea/
+*.user
+*.suo
+*.log
+.env

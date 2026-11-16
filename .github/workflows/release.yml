@@ -1,0 +1,67 @@
+name: Publicar Ruta Eorzea
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ruta-eorzea-publicacion
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+      - name: Obtener referencias de Dalamud API 15
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          $refs = Join-Path $env:RUNNER_TEMP 'dalamud-api15'
+          $archive = Join-Path $env:RUNNER_TEMP 'dalamud-api15.zip'
+          Invoke-WebRequest 'https://raw.githubusercontent.com/goatcorp/dalamud-distrib/38d5859b17b014bfdbfbbd5d60d9433333ce330b/latest.zip' -OutFile $archive
+          Expand-Archive -LiteralPath $archive -DestinationPath $refs
+          if (!(Test-Path (Join-Path $refs 'Dalamud.dll'))) { throw 'Distribución de Dalamud incompleta.' }
+          "DALAMUD_REFS=$refs" >> $env:GITHUB_ENV
+      - name: Comprobar y compilar
+        shell: pwsh
+        run: |
+          dotnet run --project tests/RouteMath.Tests.csproj -c Release
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          [xml]$project = Get-Content RutaEorzea.csproj
+          $base = [version]$project.Project.PropertyGroup.Version
+          $number = [int]$env:GITHUB_RUN_NUMBER
+          if ($number -gt 65534) { throw 'Aumenta la versión base antes de seguir publicando.' }
+          $version = "$($base.Major).$($base.Minor).$($base.Build).$number"
+          dotnet build RutaEorzea.csproj -c Release "-p:DalamudPath=$env:DALAMUD_REFS" "-p:Version=$version" "-p:AssemblyVersion=$version"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          "PACKAGE_VERSION=$version" >> $env:GITHUB_ENV
+      - name: Empaquetar
+        shell: pwsh
+        run: ./tools/New-Package.ps1 -Repository '${{ github.repository }}' -Version $env:PACKAGE_VERSION
+      - name: Publicar versión
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $notes = "Ruta Eorzea $env:PACKAGE_VERSION. Consulta README.md para instalar, migrar desde la copia de desarrollo y conocer sus límites."
+          gh release create "v$env:PACKAGE_VERSION" artifacts/latest.zip --target '${{ github.sha }}' --title "Ruta Eorzea $env:PACKAGE_VERSION" --notes $notes
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - name: Actualizar catálogo de Dalamud
+        shell: pwsh
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git pull --rebase origin main
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          Copy-Item artifacts/pluginmaster.json pluginmaster.json -Force
+          git add pluginmaster.json
+          git commit -m "Publicar catálogo $env:PACKAGE_VERSION [skip ci]"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          git push origin HEAD:main
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
